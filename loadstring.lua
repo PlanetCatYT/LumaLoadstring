@@ -2,7 +2,6 @@
 local REVIEWED = {
     ["2026-09-29T16:55:12.2114189Z"] = true
 }
-script_key="iFNqnWtkCtVDpaVenoXZBcLRiIyOkpHj";
 
 local LUARMOR_URL = "https://api.luarmor.net/files/v4/loaders/e63bd83e96ab9992d6b1bbd08cc93209.lua"
 local LOBBY_PLACE_ID = 4111023553
