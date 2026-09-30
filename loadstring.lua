@@ -101,7 +101,6 @@ end
 
 local signature = universeUpdated()
 local shownSig = signature or "unknown (games API unreachable)"
-print(("[luma loader] %s"):format(shownSig))
 
 if signature and REVIEWED[signature] then
     runBypassAndLoad()
