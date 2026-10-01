@@ -100,12 +100,44 @@ end
 
 local signature = universeUpdated()
 local shownSig = signature or "unknown (games API unreachable)"
+local function parseTimestamp(ts)
+    if type(ts) ~= "string" then
+        return nil
+    end
+    local y, mo, d, h, mi, s = ts:match("(%d+)-(%d+)-(%d+)T(%d+):(%d+):(%d+)")
+    if not y then
+        return nil
+    end
+    return os.time({
+        year = tonumber(y),
+        month = tonumber(mo),
+        day = tonumber(d),
+        hour = tonumber(h),
+        min = tonumber(mi),
+        sec = tonumber(s),
+    })
+end
 
+local function latestReviewed()
+    local newest = nil
+    for ts in next, REVIEWED do
+        local t = parseTimestamp(ts)
+        if t and (not newest or t > newest) then
+            newest = t
+        end
+    end
+    return newest
+end
 if signature and REVIEWED[signature] then
     runBypassAndLoad()
     return
 end
-
+local currentEpoch = parseTimestamp(signature)
+local reviewedMax = latestReviewed()
+if currentEpoch and reviewedMax and currentEpoch <= reviewedMax then
+    runBypassAndLoad()
+    return
+end
 local function showWarning(onChoice)
     local answered = false
     local function answer(v)
